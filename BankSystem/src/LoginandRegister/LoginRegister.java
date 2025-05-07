@@ -2,18 +2,19 @@ package LoginandRegister;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SequencedCollection;
 
-public class LoginRegister {
-    List<Users> users = new ArrayList<>();
-
-    public List<Users> register(String name, String userName, String password) {
+public  class LoginRegister {
+    static List<Users> users = new ArrayList<>();
+    public static boolean register(String name, String userName, String password) {
         Users newUser = new Users(name, userName, password);
         users.add(newUser);
         System.out.println("Registered Successfully!");
-        return users;
+        return true;
     }
 
-    public void login(String userName, String password) {
+
+    public static boolean login(String userName, String password) {
         boolean found = false;
         for (Users user : users) {
             if (user.getUserName().equals(userName) && user.getPassword().equals(password)) {
@@ -25,5 +26,6 @@ public class LoginRegister {
         if (!found) {
             System.out.println("Login failed. Invalid username or password.");
         }
+        return found;
     }
 }
