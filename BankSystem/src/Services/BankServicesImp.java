@@ -22,7 +22,9 @@ public class BankServicesImp implements BanksServices {
         String userName = scanner.nextLine();
         System.out.println("Enter the Password: ");
         String password = scanner.nextLine();
-        loginRegister.register(name,userName,password);
+        System.out.print("Enter the account Number: ");
+        String accountNumber = scanner.nextLine();
+        loginRegister.register(name,userName,password,accountNumber);
     }
 
     @Override
@@ -36,19 +38,22 @@ public class BankServicesImp implements BanksServices {
 
     @Override
     public void depositAmount(String accountNumber, String userName,double amount) {
+        boolean found = false;
         for (User user : users){
-            if(user.getUsername().equals(userName)&&user.getBalance() == amount){
+            if(user.getAccountNumber().equals(accountNumber)){
                 if(amount>0){
                     user.setBalance(user.getBalance()+amount);
                     System.out.println("Balance deposit Successfully!!");
                     System.out.println("New Balance: "+user.getBalance());
+                    found = true;
                 }else {
                     System.out.println("Invalid Amount!!");
                 }
-            return;
             }
         }
+        if(!found){
         System.out.println("Not Match the user Information!!");
+        }
     }
 
     @Override
@@ -67,4 +72,12 @@ public class BankServicesImp implements BanksServices {
         }
         System.out.println("Not Match the user Information!!");
     }
+
+    @Override
+   public void displayDetails(String loginUser) {
+//        System.out.println("Balance: "+);
+//        System.out.println("Account Number: "+);
+//        System.out.println("userName: "+getUsername());
+    }
+
 }
