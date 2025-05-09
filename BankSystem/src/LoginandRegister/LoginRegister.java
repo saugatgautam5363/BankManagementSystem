@@ -6,8 +6,8 @@ import java.util.SequencedCollection;
 
 public  class LoginRegister {
     static List<Users> users = new ArrayList<>();
-    public static boolean register(String name, String userName, String password) {
-        Users newUser = new Users(name, userName, password);
+    public static boolean register(String name, String userName, String password,String accountNumber) {
+        Users newUser = new Users(name, userName, password,accountNumber);
         users.add(newUser);
         System.out.println("Registered Successfully!");
         return true;
