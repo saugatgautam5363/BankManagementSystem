@@ -1,14 +1,18 @@
-import BankSystem.User;
 import LoginandRegister.LoginRegister;
+import LoginandRegister.Users;
 import Services.BankServicesImp;
 import Services.BanksServices;
+import BankSystem.*;
+import Services.UserDetails;
 
 import java.util.Scanner;
 
 public class BankMainClass {
-       static String loginUser = null;
+    static String loginUser = null;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        UserDetails user = new UserDetails();
         while (true) {
             System.out.println("""
                     \n===== BANK SYSTEM =====
@@ -20,13 +24,12 @@ public class BankMainClass {
             System.out.print("Enter your choice: ");
             int choice;
 
-            // Validate integer input
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline left by nextInt()
+                scanner.nextLine();
             } else {
                 System.out.println("Please enter a valid number!");
-                scanner.nextLine(); // Clear invalid input
+                scanner.nextLine();
                 continue;
             }
 
@@ -41,8 +44,14 @@ public class BankMainClass {
                     System.out.print("Enter your password: ");
                     String password = scanner.nextLine();
 
-                    LoginRegister.register(name, userName, password);
+                    System.out.print("Enter the Account Number: ");
+                    String accountNumber = scanner.nextLine();
+
+                    Users newuser = new Users(name,userName,password,accountNumber);
+                    user.userDetails(newuser);
+                    LoginRegister.register(name, userName, password,accountNumber);
                     System.out.println("✅ Registered successfully!");
+                    break;
                 }
 
                 case 2 -> {
@@ -51,12 +60,13 @@ public class BankMainClass {
 
                     System.out.print("Enter your password: ");
                     String passwordToLogin = scanner.nextLine();
-                    loginUser = userNameToLogin;
 
                     boolean isLoggedIn = LoginRegister.login(userNameToLogin, passwordToLogin);
+
                     if (isLoggedIn) {
+                        loginUser = userNameToLogin;
                         System.out.println("✅ Login successful!");
-                        // You can call dashboard or bank services here
+                        dashboard();
                     } else {
                         System.out.println("❌ Invalid username or password.");
                     }
@@ -71,41 +81,67 @@ public class BankMainClass {
             }
         }
     }
-    static void dashboard () {
+
+    static void dashboard() {
         BanksServices bank = new BankServicesImp();
         Scanner scanner = new Scanner(System.in);
-        while (loginUser != null){
-            System.out.println("""
-                    1.display the user details
-                    2.deposit Amount
-                    3.withdraw Amount
-                    4.exit the bank
-                    """);
-            System.out.print("Enter your choices: ");
-            int choices = scanner.nextInt();
-            switch (choices){
-                case 1:
 
-                    break;
-                case 2:
-                    System.out.print("Enter the Account Number: ");
+        while (true) {
+            System.out.println("""
+                    \n===== DASHBOARD =====
+                    1. Display User Details
+                    2. Deposit Amount
+                    3. Withdraw Amount
+                    4. Logout
+                    """);
+
+            System.out.print("Enter your choice: ");
+            int choice;
+
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                scanner.nextLine(); // consume newline
+            } else {
+                System.out.println("Please enter a valid number!");
+                scanner.nextLine(); // clear input
+                continue;
+            }
+
+            switch (choice) {
+                case 1 -> {
+                    bank.displayDetails(loginUser);
+                }
+
+                case 2 -> {
+                    System.out.print("Enter the account number: ");
                     String accountNumber = scanner.nextLine();
-                    System.out.println("Enter the userName: ");
-                    String userName = scanner.nextLine();
-                    System.out.println("Enter the deposit Balance: ");
+
+                    System.out.print("Enter deposit amount: ");
                     double amount = scanner.nextDouble();
-                    bank.depositAmount(accountNumber,userName,amount);
-                    break;
-                case 3:
-                    System.out.println("Enter the account number: ");
-                    String accountNumberToWithdraw = scanner.nextLine();
-                    System.out.println("Enter the userName: ");
-                    String userNameToWithdraw = scanner.nextLine();
-                    System.out.println("Enter the withdraw amount: ");
-                    double amountToWitdraw = scanner.nextDouble();
-                    bank.Withdraw(accountNumberToWithdraw,userNameToWithdraw,amountToWitdraw);
+                    scanner.nextLine();
+
+                    bank.depositAmount(accountNumber, loginUser, amount);
+                }
+
+                case 3 -> {
+                    System.out.print("Enter the account number: ");
+                    String accountNumber = scanner.nextLine();
+
+                    System.out.print("Enter withdraw amount: ");
+                    double amount = scanner.nextDouble();
+                    scanner.nextLine();
+
+                    bank.Withdraw(accountNumber, loginUser, amount);
+                }
+
+                case 4 -> {
+                    System.out.println("✅ Logged out successfully!");
+                    loginUser = null;
+                    return;
+                }
+
+                default -> System.out.println("❌ Invalid choice!");
             }
         }
     }
-
 }
