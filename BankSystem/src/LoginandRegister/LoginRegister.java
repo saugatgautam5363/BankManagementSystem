@@ -1,31 +1,28 @@
 package LoginandRegister;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.SequencedCollection;
+import BankSystem.User;
+import BankSystem.UserManager;
 
-public  class LoginRegister {
-    static List<Users> users = new ArrayList<>();
-    public static boolean register(String name, String userName, String password,String accountNumber) {
-        Users newUser = new Users(name, userName, password,accountNumber);
-        users.add(newUser);
-        System.out.println("Registered Successfully!");
+public class LoginRegister {
+
+    public static boolean register(String name, String userName, String password, String accountNumber) {
+        User user = new User(name, userName, password, accountNumber); // ✅ Using correct User type
+        UserManager.getinstance().addUser(user);                        // ✅ No type mismatch
+        System.out.println("✅ Registered Successfully!");
         return true;
     }
 
-
     public static boolean login(String userName, String password) {
-        boolean found = false;
-        for (Users user : users) {
-            if (user.getUserName().equals(userName) && user.getPassword().equals(password)) {
-                System.out.println("Login successful. Welcome, " + user.getName() + "!");
-                found = true;
-                break;
+        User user = UserManager.getinstance().findUsersName(userName);
+
+        if (user != null && user.getUsername() != null && user.getPassword() != null) {
+            if (user.getUsername().equalsIgnoreCase(userName) && user.getPassword().equals(password)) {
+                System.out.println("✅ Login successful. Welcome, " + user.getUsername());
+                return true;
             }
         }
-        if (!found) {
-            System.out.println("Login failed. Invalid username or password.");
-        }
-        return found;
+
+        System.out.println("❌ Login failed. Invalid credentials.");
+        return false;
     }
 }
