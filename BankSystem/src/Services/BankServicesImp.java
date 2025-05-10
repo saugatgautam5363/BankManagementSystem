@@ -1,7 +1,7 @@
 package Services;
 import BankSystem.User;
+import BankSystem.UserManager;
 import LoginandRegister.LoginRegister;
-import LoginandRegister.Users;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,24 +37,36 @@ public class BankServicesImp implements BanksServices {
     }
 
     @Override
-    public void depositAmount(String accountNumber, String userName,double amount) {
-        boolean found = false;
-        for (User user : users){
-            if(user.getAccountNumber().equals(accountNumber)){
-                if(amount>0){
-                    user.setBalance(user.getBalance()+amount);
-                    System.out.println("Balance deposit Successfully!!");
-                    System.out.println("New Balance: "+user.getBalance());
-                    found = true;
-                }else {
-                    System.out.println("Invalid Amount!!");
-                }
-            }
+    public void depositAmount(String accountNumber, String userName, double amount) {
+        // Validate input parameters
+        if (accountNumber == null || accountNumber.trim().isEmpty()) {
+            System.out.println("Invalid account number.");
+            return;
         }
-        if(!found){
-        System.out.println("Not Match the user Information!!");
+        if (userName == null || userName.trim().isEmpty()) {
+            System.out.println("Invalid username.");
+            return;
+        }
+        if (amount <= 0) {
+            System.out.println("Invalid amount! Deposit amount must be greater than zero.");
+            return;
+        }
+
+        // Find the user using account number and username
+        User user = UserManager.getinstance().findUser(userName, accountNumber);
+
+        // Check if the user is found
+        if (user != null) {
+            // Perform the deposit operation
+            user.setBalance(user.getBalance() + amount);
+            System.out.println("Deposit successful!");
+            System.out.println("New Balance: " + user.getBalance());
+        } else {
+            // User not found or mismatched information
+            System.out.println("User not found or the information provided doesn't match.");
         }
     }
+
 
     @Override
     public void Withdraw(String accountNumber, String userName, double amount) {
@@ -75,9 +87,9 @@ public class BankServicesImp implements BanksServices {
 
     @Override
    public void displayDetails(String loginUser) {
-//        System.out.println("Balance: "+);
-//        System.out.println("Account Number: "+);
-//        System.out.println("userName: "+getUsername());
+//      System.out.println("Balance: "+ );
+//      System.out.println("Account Number: "+);
+//       System.out.println("userName: "+getUsername());
     }
 
 }
