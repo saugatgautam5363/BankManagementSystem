@@ -1,5 +1,4 @@
 import LoginandRegister.LoginRegister;
-import LoginandRegister.Users;
 import Services.BankServicesImp;
 import Services.BanksServices;
 import BankSystem.*;
@@ -47,7 +46,7 @@ public class BankMainClass {
                     System.out.print("Enter the Account Number: ");
                     String accountNumber = scanner.nextLine();
 
-                    Users newuser = new Users(name,userName,password,accountNumber);
+                    User newuser = new User(name,userName,password,accountNumber);
                     user.userDetails(newuser);
                     LoginRegister.register(name, userName, password,accountNumber);
                     System.out.println("✅ Registered successfully!");
@@ -57,7 +56,6 @@ public class BankMainClass {
                 case 2 -> {
                     System.out.print("Enter your username: ");
                     String userNameToLogin = scanner.nextLine();
-
                     System.out.print("Enter your password: ");
                     String passwordToLogin = scanner.nextLine();
 
@@ -84,6 +82,7 @@ public class BankMainClass {
 
     static void dashboard() {
         BanksServices bank = new BankServicesImp();
+        User user = new User();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -109,18 +108,20 @@ public class BankMainClass {
 
             switch (choice) {
                 case 1 -> {
-                    bank.displayDetails(loginUser);
+                    user.displayUserAccountDetails();
                 }
 
                 case 2 -> {
                     System.out.print("Enter the account number: ");
-                    String accountNumber = scanner.nextLine();
+                    String accountNumber = scanner.nextLine().trim();
 
+                    System.out.print("Enter the userName: ");
+                    String userName = scanner.nextLine();
                     System.out.print("Enter deposit amount: ");
                     double amount = scanner.nextDouble();
                     scanner.nextLine();
 
-                    bank.depositAmount(accountNumber, loginUser, amount);
+                    bank.depositAmount(accountNumber, userName, amount);
                 }
 
                 case 3 -> {
