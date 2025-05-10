@@ -1,16 +1,22 @@
 package BankSystem;
 
 public class User {
+    String name;
     String username;
     String password;
     String accountNumber;
     double balance;
 
-    public User(String username, String password,String accountNumber) {
+    public User(String name,String username, String password,String accountNumber) {
         this.username = username;
         this.password = password;
         this.accountNumber = accountNumber;
         this.balance = 0.0;
+        this.name = name;
+    }
+
+    public User() {
+
     }
 
     public String getUsername() {
@@ -50,4 +56,11 @@ public class User {
         System.out.println("userName: "+getUsername());
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
