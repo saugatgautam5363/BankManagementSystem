@@ -1,13 +1,13 @@
 package Services;
 
-import LoginandRegister.Users;
+import BankSystem.User;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class UserDetails {
-    public void userDetails(Users users){
+    public void userDetails(User users){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter("userdetails.txt",true))){
             bw.write(users.toString());
             bw.newLine();
