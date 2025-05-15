@@ -50,6 +50,7 @@ public class User {
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
+
     public void displayUserAccountDetails(){
         System.out.println("Balance: "+getBalance());
         System.out.println("Account Number: "+getAccountNumber());
