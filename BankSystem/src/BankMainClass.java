@@ -4,10 +4,12 @@ import Services.BanksServices;
 import BankSystem.*;
 import Services.UserDetails;
 
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
-public class BankMainClass {
+public  class BankMainClass {
     static String loginUser = null;
+    static BanksServices bank = new BankServicesImp();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -35,22 +37,22 @@ public class BankMainClass {
             switch (choice) {
                 case 1 -> {
                     System.out.print("Enter your full name: ");
-                    String name = scanner.nextLine();
+                    String name = scanner.nextLine().trim();
 
                     System.out.print("Enter your username: ");
-                    String userName = scanner.nextLine();
+                    String userName = scanner.nextLine().trim();
 
                     System.out.print("Enter your password: ");
-                    String password = scanner.nextLine();
+                    String password = scanner.nextLine().trim();
 
                     System.out.print("Enter the Account Number: ");
-                    String accountNumber = scanner.nextLine();
+                    String accountNumber = scanner.nextLine().trim();
 
                     User newuser = new User(name,userName,password,accountNumber);
                     user.userDetails(newuser);
                     LoginRegister.register(name, userName, password,accountNumber);
+                    bank.Adduser(newuser);
                     System.out.println("✅ Registered successfully!");
-                    break;
                 }
 
                 case 2 -> {
@@ -81,7 +83,6 @@ public class BankMainClass {
     }
 
     static void dashboard() {
-        BanksServices bank = new BankServicesImp();
         User user = new User();
         Scanner scanner = new Scanner(System.in);
 
@@ -108,7 +109,6 @@ public class BankMainClass {
 
             switch (choice) {
                 case 1 -> {
-                    user.displayUserAccountDetails();
                 }
 
                 case 2 -> {
