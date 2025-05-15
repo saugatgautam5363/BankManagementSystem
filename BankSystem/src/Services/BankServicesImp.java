@@ -10,6 +10,19 @@ import java.util.Scanner;
 public class BankServicesImp implements BanksServices {
     Scanner scanner = new Scanner(System.in);
     List<User> users = new ArrayList<>();
+
+    @Override
+    public void Adduser(User user) {
+        for(User user1 : users){
+            if(user1.getAccountNumber().equals(user.getAccountNumber())){
+                System.out.println("A user with this account number already exists!");
+                return;
+            }
+            users.add(user1);
+            System.out.println("User add Successfully!!");
+        }
+    }
+
     @Override
     public void Login(LoginRegister loginRegister) {
     }
@@ -24,21 +37,11 @@ public class BankServicesImp implements BanksServices {
         String password = scanner.nextLine();
         System.out.print("Enter the account Number: ");
         String accountNumber = scanner.nextLine();
-        loginRegister.register(name,userName,password,accountNumber);
-    }
-
-    @Override
-    public void UserAccount(User user, String userName, String password) {
-        if(user.getPassword().equals(password) && user.getUsername().equals(userName)){
-            user.displayUserAccountDetails();
-        }else {
-            System.out.println("Not show the user details. try Again!!!");
-        }
+        loginRegister.register(name, userName, password, accountNumber);
     }
 
     @Override
     public void depositAmount(String accountNumber, String userName, double amount) {
-        // Validate input parameters
         if (accountNumber == null || accountNumber.trim().isEmpty()) {
             System.out.println("Invalid account number.");
             return;
@@ -52,17 +55,15 @@ public class BankServicesImp implements BanksServices {
             return;
         }
 
-        // Find the user using account number and username
-        User user = UserManager.getinstance().findUser(userName, accountNumber);
+        User user = UserManager.getinstance().findUser(userName.trim(), accountNumber.trim());
 
-        // Check if the user is found
         if (user != null) {
-            // Perform the deposit operation
-            user.setBalance(user.getBalance() + amount);
+            synchronized (user) {
+                user.setBalance(user.getBalance() + amount);
+            }
             System.out.println("Deposit successful!");
-            System.out.println("New Balance: " + user.getBalance());
+            System.out.printf("New Balance: %.2f%n", user.getBalance());
         } else {
-            // User not found or mismatched information
             System.out.println("User not found or the information provided doesn't match.");
         }
     }
@@ -70,26 +71,37 @@ public class BankServicesImp implements BanksServices {
 
     @Override
     public void Withdraw(String accountNumber, String userName, double amount) {
-        for(User user: users){
-            if(user.getUsername().equals(userName) && user.getAccountNumber().equals(accountNumber) && user.getBalance() == amount){
-                if(amount >0 && amount<=user.getBalance()){
-                    user.setBalance(user.getBalance()-amount);
-                    System.out.println("Amount Withdraw Successfully!!");
-                    System.out.println("New Balance: "+user.getBalance());
-                }else{
+        for (User user : users) {
+            if (user.getUsername().equalsIgnoreCase(userName) &&
+                    user.getAccountNumber().equals(accountNumber)) {
+
+                if (amount > 0 && amount <= user.getBalance()) {
+                    user.setBalance(user.getBalance() - amount);
+                    System.out.println("Amount Withdrawn Successfully!!");
+                    System.out.printf("New Balance: %.2f%n", user.getBalance());
+                } else {
                     System.out.println("Invalid Amount!!");
                 }
                 return;
             }
         }
-        System.out.println("Not Match the user Information!!");
+        System.out.println("User information does not match!!");
     }
 
     @Override
-   public void displayDetails(String loginUser) {
-//      System.out.println("Balance: "+ );
-//      System.out.println("Account Number: "+);
-//       System.out.println("userName: "+getUsername());
-    }
+    public void displayDetails(String username, String password, String accountNumber) {
+        for (User user : users) {
 
+            if (user != null && user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password) && user.getAccountNumber().equals(accountNumber)) {
+                System.out.println("UserName: " + user.getUsername());
+                System.out.println("Password: " + user.getPassword());
+                System.out.println("Balance: " + user.getBalance());
+                return;
+            } else {
+                System.out.println("User is not Found!!");
+            }
+        }
+
+    }
 }
+
