@@ -128,11 +128,14 @@ public  class BankMainClass {
                     System.out.print("Enter the account number: ");
                     String accountNumber = scanner.nextLine();
 
+                    System.out.print("Enter the user Name: ");
+                    String userName = scanner.nextLine();
+
                     System.out.print("Enter withdraw amount: ");
                     double amount = scanner.nextDouble();
                     scanner.nextLine();
 
-                    bank.Withdraw(accountNumber, loginUser, amount);
+                    bank.Withdraw(accountNumber,userName,amount);
                 }
 
                 case 4 -> {
