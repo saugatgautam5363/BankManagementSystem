@@ -71,23 +71,37 @@ public class BankServicesImp implements BanksServices {
 
     @Override
     public void Withdraw(String accountNumber, String userName, double amount) {
-        for (User user : users) {
-            if (user.getUsername().equalsIgnoreCase(userName) &&
-                    user.getAccountNumber().equals(accountNumber)) {
-
-                if (amount > 0 && amount <= user.getBalance()) {
-                    user.setBalance(user.getBalance() - amount);
-                    System.out.println("Amount Withdrawn Successfully!!");
-                    System.out.printf("New Balance: %.2f%n", user.getBalance());
-                } else {
-                    System.out.println("Invalid Amount!!");
-                }
-                return;
-            }
+        if (accountNumber == null || accountNumber.trim().isEmpty()) {
+            System.out.println("Invalid account number.");
+            return;
         }
-        System.out.println("User information does not match!!");
-    }
 
+        if (userName == null || userName.trim().isEmpty()) {
+            System.out.println("Invalid username.");
+            return;
+        }
+
+        if (amount <= 0) {
+            System.out.println("Invalid amount! Withdrawal amount must be greater than zero.");
+            return;
+        }
+
+        User user = UserManager.getinstance().findUser(userName.trim(), accountNumber.trim());
+
+        if (user != null) {
+            synchronized (user) {
+                if (amount > user.getBalance()) {
+                    System.out.println("Insufficient balance!");
+                    return;
+                }
+                user.setBalance(user.getBalance() - amount);
+                System.out.println("Withdrawal successful!");
+                System.out.printf("New Balance: %.2f%n", user.getBalance());
+            }
+        } else {
+            System.out.println("User not found or the information provided doesn't match.");
+        }
+    }
     @Override
     public void displayDetails(String username, String password, String accountNumber) {
         for (User user : users) {
