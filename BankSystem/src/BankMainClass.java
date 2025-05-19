@@ -3,7 +3,6 @@ import Services.BankServicesImp;
 import Services.BanksServices;
 import BankSystem.*;
 import Services.UserDetails;
-
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
@@ -52,6 +51,7 @@ public  class BankMainClass {
                     user.userDetails(newuser);
                     LoginRegister.register(name, userName, password,accountNumber);
                     bank.Adduser(newuser);
+                    Register.register(name,userName,password,accountNumber);
                     System.out.println("✅ Registered successfully!");
                 }
 
@@ -65,8 +65,9 @@ public  class BankMainClass {
 
                     if (isLoggedIn) {
                         loginUser = userNameToLogin;
+                        Login.login(userNameToLogin,passwordToLogin);
                         System.out.println("✅ Login successful!");
-                        dashboard();
+                        dashboard(); // Your dashboard method
                     } else {
                         System.out.println("❌ Invalid username or password.");
                     }
