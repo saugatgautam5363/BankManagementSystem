@@ -61,11 +61,10 @@ public  class BankMainClass {
                     System.out.print("Enter your password: ");
                     String passwordToLogin = scanner.nextLine();
 
-                    boolean isLoggedIn = LoginRegister.login(userNameToLogin, passwordToLogin);
+                    boolean isLoggedIn = Login.login(userNameToLogin, passwordToLogin); // ✅ Only use one
 
                     if (isLoggedIn) {
                         loginUser = userNameToLogin;
-                        Login.login(userNameToLogin,passwordToLogin);
                         System.out.println("✅ Login successful!");
                         dashboard(); // Your dashboard method
                     } else {
@@ -77,7 +76,6 @@ public  class BankMainClass {
                     System.out.println("Thank you for using the Bank System. Goodbye!");
                     System.exit(0);
                 }
-
                 default -> System.out.println("❌ Invalid choice. Please select 1, 2, or 3.");
             }
         }
