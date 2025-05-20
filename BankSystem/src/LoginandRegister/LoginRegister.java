@@ -12,17 +12,20 @@ public class LoginRegister {
         return true;
     }
 
-    public static boolean login(String userName, String password) {
-        User user = UserManager.getinstance().findUsersName(userName);
+    public class Login {
+        public static boolean login(String userName, String password) {
+            User user = UserManager.getinstance().findUsersName(userName);
 
-        if (user != null && user.getUsername() != null && user.getPassword() != null) {
-            if (user.getUsername().equalsIgnoreCase(userName) && user.getPassword().equals(password)) {
-                System.out.println("✅ Login successful. Welcome, " + user.getUsername());
-                return true;
+            if (user != null && user.getPassword() != null) {
+                if (user.getPassword().equals(password)) {
+                    System.out.println("✅ Login successful. Welcome, " + user.getUsername());
+                    return true;
+                }
             }
-        }
 
-        System.out.println("❌ Login failed. Invalid credentials.");
-        return false;
+            System.out.println("❌ Login failed. Invalid credentials.");
+            return false;
+        }
     }
+
 }
