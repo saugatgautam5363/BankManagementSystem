@@ -119,7 +119,7 @@ public  class BankMainClass {
                     System.out.print("Enter deposit amount: ");
                     double amount = scanner.nextDouble();
                     scanner.nextLine();
-
+                    Deposit.depositAmount(accountNumber,amount);
                     bank.depositAmount(accountNumber, userName, amount);
                 }
 
@@ -133,7 +133,7 @@ public  class BankMainClass {
                     System.out.print("Enter withdraw amount: ");
                     double amount = scanner.nextDouble();
                     scanner.nextLine();
-
+                    Withdraw.withdraw(accountNumber,amount);
                     bank.Withdraw(accountNumber,userName,amount);
                 }
 
