@@ -14,6 +14,7 @@ public class BankServicesImp implements BanksServices {
 
     @Override
     public void Adduser(User user) {
+
         for(User user1 : users){
             if(user1.getAccountNumber().equals(user.getAccountNumber())){
                 System.out.println("A user with this account number already exists!");
