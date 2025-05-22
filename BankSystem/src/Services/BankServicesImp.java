@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class BankServicesImp implements BanksServices {
     Scanner scanner = new Scanner(System.in);
     List<User> users = new ArrayList<>();
+    private User currentLoggedInUser = null;
 
     @Override
     public void Adduser(User user) {
@@ -25,6 +26,18 @@ public class BankServicesImp implements BanksServices {
 
     @Override
     public void Login(LoginRegister loginRegister) {
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+
+        currentLoggedInUser = loginRegister.login(username,password);
+
+        if (currentLoggedInUser != null) {
+            System.out.println("Login successful!");
+        } else {
+            System.out.println("Login failed. Invalid username or password.");
+        }
     }
 
     @Override
@@ -42,6 +55,9 @@ public class BankServicesImp implements BanksServices {
 
     @Override
     public void depositAmount(String accountNumber, String userName, double amount) {
+        if(currentLoggedInUser == null){
+            System.out.println("please login first!!");
+        }
         if (accountNumber == null || accountNumber.trim().isEmpty()) {
             System.out.println("Invalid account number.");
             return;
