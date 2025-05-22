@@ -12,8 +12,7 @@ public class LoginRegister {
         return true;
     }
 
-    public class Login {
-        public static boolean login(String userName, String password) {
+        public static User login(String userName, String password) {
             User user = UserManager.getinstance().findUsersName(userName);
 
             if (user != null && user.getPassword() != null) {
@@ -26,6 +25,6 @@ public class LoginRegister {
             System.out.println("❌ Login failed. Invalid credentials.");
             return false;
         }
-    }
+
 
 }
