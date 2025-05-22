@@ -26,6 +26,7 @@ public class UserManager {
                 return user;
             }
         }
+
         return null;
     }
     public User findUsersName(String username) {
