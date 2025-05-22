@@ -12,18 +12,20 @@ public class LoginRegister {
         return true;
     }
 
+
         public static User login(String userName, String password) {
             User user = UserManager.getinstance().findUsersName(userName);
 
             if (user != null && user.getPassword() != null) {
                 if (user.getPassword().equals(password)) {
                     System.out.println("✅ Login successful. Welcome, " + user.getUsername());
-                    return true;
+//                    return true;
                 }
             }
 
             System.out.println("❌ Login failed. Invalid credentials.");
-            return false;
+//            return false;
+            return user;
         }
 
 
