@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/BankManagementSystem.iml" filepath="$PROJECT_DIR$/.idea/BankManagementSystem.iml" />
       <module fileurl="file://$PROJECT_DIR$/BankSystem/BankSystem.iml" filepath="$PROJECT_DIR$/BankSystem/BankSystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DataBase/DataBase.iml" filepath="$PROJECT_DIR$/DataBase/DataBase.iml" />
     </modules>
   </component>
 </project>
