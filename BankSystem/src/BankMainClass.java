@@ -61,7 +61,7 @@ public  class BankMainClass {
                     System.out.print("Enter your password: ");
                     String passwordToLogin = scanner.nextLine();
 
-                    boolean isLoggedIn = Login.login(userNameToLogin, passwordToLogin); // ✅ Only use one
+                    boolean isLoggedIn =Login.login(userNameToLogin, passwordToLogin); // ✅ Only use one
 
                     if (isLoggedIn) {
                         loginUser = userNameToLogin;
@@ -111,16 +111,16 @@ public  class BankMainClass {
                 }
 
                 case 2 -> {
-                    System.out.print("Enter the account number: ");
-                    String accountNumber = scanner.nextLine().trim();
-
-                    System.out.print("Enter the userName: ");
-                    String userName = scanner.nextLine();
+//                    System.out.print("Enter the account number: ");
+//                    String accountNumber = scanner.nextLine().trim();
+//
+//                    System.out.print("Enter the userName: ");
+//                    String userName = scanner.nextLine();
                     System.out.print("Enter deposit amount: ");
                     double amount = scanner.nextDouble();
                     scanner.nextLine();
-                    Deposit.depositAmount(accountNumber,amount);
-                    bank.depositAmount(accountNumber, userName, amount);
+//                    Deposit.depositAmount(accountNumber,amount);
+                    bank.depositAmount(amount);
                 }
 
                 case 3 -> {
