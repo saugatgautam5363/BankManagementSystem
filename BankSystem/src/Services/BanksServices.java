@@ -12,7 +12,7 @@ public interface BanksServices {
     void register(LoginRegister loginRegister);
 
     void depositAmount(double amount);
-    void Withdraw(String accountNumber, String userName,double amount);
+    void Withdraw(double amount);
 
-    void displayDetails(String username,String password,String accountNumber);
+     void displayDetails(String username) ;
 }
