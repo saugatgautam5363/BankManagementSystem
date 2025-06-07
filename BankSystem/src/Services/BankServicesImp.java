@@ -3,15 +3,16 @@ package Services;
 import BankSystem.User;
 import BankSystem.UserManager;
 import LoginandRegister.LoginRegister;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
+
 public class BankServicesImp implements BanksServices {
     Scanner scanner = new Scanner(System.in);
     List<User> users = new ArrayList<>();
-    private User currentLoggedInUser = null;
+    private static User currentLoggedInUser = null;
 
     @Override
     public void Adduser(User user) {
@@ -77,18 +78,18 @@ public class BankServicesImp implements BanksServices {
     }
 
     @Override
-    public void Withdraw(String accountNumber, String userName, double amount) {
+    public void Withdraw(double amount) {
         if (currentLoggedInUser == null) {
             System.out.println("Please login first!");
             return;
         }
 
-        // Ensure the logged-in user is withdrawing from their own account
-        if (!currentLoggedInUser.getAccountNumber().equals(accountNumber.trim()) ||
-                !currentLoggedInUser.getUsername().equalsIgnoreCase(userName.trim())) {
-            System.out.println("Unauthorized access! You can only withdraw from your own account.");
-            return;
-        }
+//        // Ensure the logged-in user is withdrawing from their own account
+//        if (!currentLoggedInUser.getAccountNumber().equals(accountNumber.trim()) ||
+//                !currentLoggedInUser.getUsername().equalsIgnoreCase(userName.trim())) {
+//            System.out.println("Unauthorized access! You can only withdraw from your own account.");
+//            return;
+//        }
 
         if (amount <= 0) {
             System.out.println("Invalid amount! Withdrawal amount must be greater than zero.");
@@ -106,19 +107,18 @@ public class BankServicesImp implements BanksServices {
         }
     }
 
-    @Override
-    public void displayDetails(String username, String password, String accountNumber) {
+    public void displayDetails(String username) {
         if (currentLoggedInUser == null) {
             System.out.println("Please login first to view account details.");
             return;
         }
 
-        if (!currentLoggedInUser.getUsername().equalsIgnoreCase(username.trim()) ||
-                !currentLoggedInUser.getPassword().equals(password) ||
-                !currentLoggedInUser.getAccountNumber().equals(accountNumber.trim())) {
-            System.out.println("The provided information does not match the logged-in user.");
-            return;
-        }
+//        if (!currentLoggedInUser.getUsername().equalsIgnoreCase(username.trim()) ||
+//                !currentLoggedInUser.getPassword().equals(password) ||
+//                !currentLoggedInUser.getAccountNumber().equals(accountNumber.trim())) {
+//            System.out.println("The provided information does not match the logged-in user.");
+//            return;
+//        }
 
         System.out.println("User Details:");
         System.out.println("Username: " + currentLoggedInUser.getUsername());
