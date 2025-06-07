@@ -5,6 +5,8 @@ import BankSystem.*;
 import Services.UserDetails;
 import java.sql.SQLOutput;
 import java.util.Scanner;
+import Services.BankServicesImp;
+
 
 public  class BankMainClass {
     static String loginUser = null;
@@ -57,23 +59,31 @@ public  class BankMainClass {
 
                 case 2 -> {
                     System.out.print("Enter your username: ");
-                    String userNameToLogin = scanner.nextLine();
-                    System.out.print("Enter your password: ");
-                    String passwordToLogin = scanner.nextLine();
+                    String userNameToLogin = scanner.nextLine().trim();
 
-                    boolean isLoggedIn =Login.login(userNameToLogin, passwordToLogin); // ✅ Only use one
+                    System.out.print("Enter your password: ");
+                    String passwordToLogin = scanner.nextLine().trim();
+
+                    if (userNameToLogin.isEmpty() || passwordToLogin.isEmpty()) {
+                        System.out.println("❌ Username and password cannot be empty.");
+                        break;
+                    }
+
+                    boolean isLoggedIn = Login.authenticate(userNameToLogin, passwordToLogin);
 
                     if (isLoggedIn) {
                         loginUser = userNameToLogin;
                         System.out.println("✅ Login successful!");
-                        dashboard(); // Your dashboard method
+                        dashboard();
                     } else {
+                        loginUser = null;
                         System.out.println("❌ Invalid username or password.");
                     }
                 }
 
+
                 case 3 -> {
-                    System.out.println("Thank you for using the Bank System. Goodbye!");
+                    System.out.println("Thank you for using the Bank System. tanks santosh!");
                     System.exit(0);
                 }
                 default -> System.out.println("❌ Invalid choice. Please select 1, 2, or 3.");
@@ -108,33 +118,33 @@ public  class BankMainClass {
 
             switch (choice) {
                 case 1 -> {
+
+                    System.out.println("Enter the user name: ");
+                    String username = scanner.nextLine();
+                    DisplayUser.displayuser(username);
+//                    BankServicesImp.displayDetails(username);
                 }
 
                 case 2 -> {
-//                    System.out.print("Enter the account number: ");
-//                    String accountNumber = scanner.nextLine().trim();
-//
-//                    System.out.print("Enter the userName: ");
-//                    String userName = scanner.nextLine();
                     System.out.print("Enter deposit amount: ");
                     double amount = scanner.nextDouble();
                     scanner.nextLine();
-//                    Deposit.depositAmount(accountNumber,amount);
+                   Deposit.depositAmount(loginUser, amount);
                     bank.depositAmount(amount);
                 }
 
                 case 3 -> {
-                    System.out.print("Enter the account number: ");
-                    String accountNumber = scanner.nextLine();
-
-                    System.out.print("Enter the user Name: ");
-                    String userName = scanner.nextLine();
+//                    System.out.print("Enter the account number: ");
+//                    String accountNumber = scanner.nextLine();
+//
+//                    System.out.print("Enter the user Name: ");
+//                    String userName = scanner.nextLine();
 
                     System.out.print("Enter withdraw amount: ");
                     double amount = scanner.nextDouble();
                     scanner.nextLine();
-                    Withdraw.withdraw(accountNumber,amount);
-                    bank.Withdraw(accountNumber,userName,amount);
+                    Withdraw.withdraw(loginUser,amount);
+                    bank.Withdraw(amount);
                 }
 
                 case 4 -> {
