@@ -4,31 +4,39 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Login {
-    public static boolean login(String userName, String password) {
-        try (Connection connection = DBConnection.getConnection()) {
-            if (connection == null) {
-                System.out.println("❌ DB connection is null");
-                return false;
-            }
-            System.out.println("✅ DB Connected");
+    private static String loggedInUser = null;
 
-            String query = "SELECT * FROM user_details WHERE LOWER(TRIM(user_name)) = LOWER(TRIM(?)) AND password = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, userName.trim());
-            preparedStatement.setString(2, password.trim());
+    public static boolean authenticate(String username, String password) {
+        // authentication logic from DB
+        try (Connection conn = DBConnection.getConnection()) {
+            String query = "SELECT * FROM user_details WHERE user_name = ? AND password = ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                System.out.println("✅ Login successful from database");
+            if (rs.next()) {
+                loggedInUser = username;
+                System.out.println("✅ Login successful!");
                 return true;
             } else {
-                System.out.println("❌ Invalid username or password (from DB)");
+                System.out.println("❌ Invalid username or password.");
                 return false;
             }
         } catch (SQLException e) {
-            System.out.println("Login Error: " + e.getMessage());
+            System.out.println("🔴 Login error: " + e.getMessage());
             return false;
         }
     }
+
+    public static String getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public static void logout() {
+        loggedInUser = null;
+        System.out.println("👋 Logged out.");
+    }
+
+
 }
