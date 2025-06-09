@@ -16,7 +16,6 @@ public class User {
     }
 
     public User() {
-
     }
 
 
@@ -64,5 +63,8 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
     }
 }
