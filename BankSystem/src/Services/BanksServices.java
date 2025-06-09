@@ -11,7 +11,10 @@ public interface BanksServices {
 
     void register(LoginRegister loginRegister);
 
-    void depositAmount(double amount);
+     void depositAmount(double amount);
+
+
+
     void Withdraw(double amount);
 
      void displayDetails(String username) ;
