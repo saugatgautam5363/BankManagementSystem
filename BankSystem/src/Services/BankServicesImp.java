@@ -78,7 +78,7 @@ public class BankServicesImp implements BanksServices {
     }
 
     @Override
-    public void Withdraw(double amount) {
+    public  void Withdraw(double amount) {
         if (currentLoggedInUser == null) {
             System.out.println("Please login first!");
             return;
