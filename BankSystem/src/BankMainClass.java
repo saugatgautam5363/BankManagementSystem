@@ -129,7 +129,7 @@ public  class BankMainClass {
                     System.out.print("Enter deposit amount: ");
                     double amount = scanner.nextDouble();
                     scanner.nextLine();
-                   Deposit.depositAmount(loginUser, amount);
+                    Deposit.depositAmount(loginUser, amount);
                     bank.depositAmount(amount);
                 }
 
