@@ -28,6 +28,7 @@ public class LoginPanel extends JPanel {
             loginRegister.setInput(txtUsername.getText(), new String(txtPassword.getPassword()));
             bankServices.Login(loginRegister);
 
+
             if (loginRegister.isAuthenticated()) {
                 JOptionPane.showMessageDialog(this, "Login successful!");
                 frame.switchTo("dashboard");
