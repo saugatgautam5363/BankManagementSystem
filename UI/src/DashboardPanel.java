@@ -20,6 +20,7 @@ public class DashboardPanel extends JPanel {
             bankServices.depositAmount(amount);
         });
 
+
         btnWithdraw.addActionListener(e -> {
             String amountStr = JOptionPane.showInputDialog("Enter amount to withdraw:");
             double amount = Double.parseDouble(amountStr);
