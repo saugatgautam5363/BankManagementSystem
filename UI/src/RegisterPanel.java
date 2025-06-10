@@ -36,6 +36,7 @@ public class RegisterPanel extends JPanel {
             loginRegister.setRegisterInput(
                     txtName.getText(),
                     txtUsername.getText(),
+
                     new String(txtPassword.getPassword()),
                     txtAccNo.getText()
             );
