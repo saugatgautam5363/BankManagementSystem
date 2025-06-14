@@ -17,5 +17,5 @@ public interface BanksServices {
 
     void Withdraw(double amount);
 
-     void displayDetails(String username) ;
+     void displayDetails() ;
 }
