@@ -51,7 +51,7 @@ public class User {
         this.accountNumber = accountNumber;
     }
 
-    public void displayUserAccountDetails(){
+    public  void displayUserAccountDetails(){
         System.out.println("Balance: "+getBalance());
         System.out.println("Account Number: "+getAccountNumber());
         System.out.println("userName: "+getUsername());
