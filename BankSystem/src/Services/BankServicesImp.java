@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class BankServicesImp implements BanksServices {
     Scanner scanner = new Scanner(System.in);
     List<User> users = new ArrayList<>();
-    private static User currentLoggedInUser = null;
+    static User currentLoggedInUser = null;
 
     @Override
     public void Adduser(User user) {
@@ -107,7 +107,7 @@ public class BankServicesImp implements BanksServices {
         }
     }
 
-    public void displayDetails(String username) {
+    public void displayDetails() {
         if (currentLoggedInUser == null) {
             System.out.println("Please login first to view account details.");
             return;
@@ -125,4 +125,16 @@ public class BankServicesImp implements BanksServices {
         System.out.println("Account Number: " + currentLoggedInUser.getAccountNumber());
         System.out.printf("Balance: %.2f%n", currentLoggedInUser.getBalance());
     }
+    public void Login(LoginRegister loginRegister, String username, String password) {
+        currentLoggedInUser = loginRegister.login(username, password);
+    }
+
+    public boolean isLoggedIn() {
+        return currentLoggedInUser != null;
+    }
+
+    public void logout() {
+        currentLoggedInUser = null;
+    }
+
 }
