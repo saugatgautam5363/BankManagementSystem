@@ -38,7 +38,7 @@ public class UserManager {
         }
         return null;
     }
-    public void userDetails(User user) {
+    public static void userDetails(User user) {
         if (user == null) {
             System.out.println("❌ User is null. Cannot display details.");
             return;
