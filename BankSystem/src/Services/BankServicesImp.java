@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class BankServicesImp implements BanksServices {
     Scanner scanner = new Scanner(System.in);
     List<User> users = new ArrayList<>();
-    static User currentLoggedInUser = null;
+   public static User currentLoggedInUser = null;
 
     @Override
     public void Adduser(User user) {
