@@ -1,5 +1,5 @@
-package LoginandRegister;
 
+package LoginandRegister;
 import BankSystem.User;
 import BankSystem.UserManager;
 
@@ -18,20 +18,18 @@ public class LoginRegister {
     }
 
 
-        public static User login(String userName, String password) {
-            User user = UserManager.getinstance().findUsersName(userName);
+    public static User login(String userName, String password) {
+        User user = UserManager.getinstance().findUsersName(userName);
 
-            if (user != null && user.getPassword() != null) {
-                if (user.getPassword().equals(password)) {
-                    System.out.println("✅ Login successful. Welcome, " + user.getUsername());
-//                    return true;
-                }
+        if (user != null && user.getPassword() != null) {
+            if (user.getPassword().equals(password)) {
+                System.out.println("✅ Login successful. Welcome, " + user.getUsername());
             }
-
+        }else {
             System.out.println("❌ Login failed. Invalid credentials.");
-//            return false;
-            return user;
         }
+            return user;
+    }
     public void setInput(String username, String password) {
         this.username = username;
         this.password = password;
