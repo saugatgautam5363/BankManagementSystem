@@ -8,17 +8,15 @@ public class User {
     double balance;
 
     public User(String name,String username, String password,String accountNumber) {
+        this.name = name;
         this.username = username;
         this.password = password;
         this.accountNumber = accountNumber;
         this.balance = 0.0;
-        this.name = name;
     }
+    public User(){
 
-    public User() {
     }
-
-
     public String getUsername() {
         return username;
     }
