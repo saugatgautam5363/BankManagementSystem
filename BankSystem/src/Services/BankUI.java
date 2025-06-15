@@ -6,8 +6,6 @@ import java.awt.event.*;
 
 import BankSystem.User;
 import LoginandRegister.LoginRegister;
-import Services.BankServicesImp;
-import BankSystem.User;
 
 import static Services.BankServicesImp.currentLoggedInUser;
 
@@ -160,6 +158,8 @@ public class BankUI extends JFrame {
                 try {
                     double amount = Double.parseDouble(amt);
                     bankService.depositAmount(amount);
+//                    Deposit deposit
+//                    User user =
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "Invalid amount.");
                 }
