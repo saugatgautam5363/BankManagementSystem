@@ -2,6 +2,7 @@
 package LoginandRegister;
 import BankSystem.User;
 import BankSystem.UserManager;
+import Database.Login;
 
 public class LoginRegister {
     private String username;
@@ -21,8 +22,8 @@ public class LoginRegister {
     public static User login(String userName, String password) {
         User user = UserManager.getinstance().findUsersName(userName);
 
-        if (user != null && user.getPassword() != null) {
-            if (user.getPassword().equals(password)) {
+        if (user != null && user.getPassword() != null || Login.authenticate(userName,password)) {
+            if (user != null ? user.getPassword().equals(password) : false) {
                 System.out.println("✅ Login successful. Welcome, " + user.getUsername());
             }
         }else {
