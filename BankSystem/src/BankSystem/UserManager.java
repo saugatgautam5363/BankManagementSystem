@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class UserManager {
     private static UserManager instance = new UserManager();
-    private final List<User> users = new ArrayList<>();
+    private static final List<User> users = new ArrayList<>();
 
     public static UserManager getinstance(){
         if(instance == null){
@@ -12,10 +12,16 @@ public class UserManager {
         }
         return instance;
     }
+
+
+
     public void addUser(User user){
         if(user != null) {
             users.add(user);
         }
+    }
+    public static List<User> getUsers() {
+        return users;
     }
     public List<User> getAllUser(){
         return users;
