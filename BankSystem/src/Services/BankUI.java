@@ -1,20 +1,19 @@
 package Services;
 
+import Database.*;
+import LoginandRegister.LoginRegister;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-
-import BankSystem.User;
-import LoginandRegister.LoginRegister;
 
 import static Services.BankServicesImp.currentLoggedInUser;
 
 public class BankUI extends JFrame {
-    private BankServicesImp bankService = new BankServicesImp();
-    private LoginRegister loginRegister = new LoginRegister();
+    private final BankServicesImp bankService = new BankServicesImp();
+    private final LoginRegister loginRegister = new LoginRegister();
 
-    private CardLayout cardLayout = new CardLayout();
-    private JPanel mainPanel = new JPanel(cardLayout);
+    private final CardLayout cardLayout = new CardLayout();
+    private final JPanel mainPanel = new JPanel(cardLayout);
 
     public BankUI() {
         setTitle("💰 Modern Bank Management System");
@@ -23,7 +22,6 @@ public class BankUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 
-        // Panels
         mainPanel.add(createLoginPanel(), "login");
         mainPanel.add(createRegisterPanel(), "register");
         mainPanel.add(createDashboardPanel(), "dashboard");
@@ -77,9 +75,8 @@ public class BankUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "All fields are required!");
                 return;
             }
-
             bankService.Login(loginRegister, user, pass);
-            if (bankService.isLoggedIn()) {
+            if (bankService.isLoggedIn()||Login.authenticate(user,pass)) {
                 JOptionPane.showMessageDialog(this, "Welcome back, " + user + "!");
                 cardLayout.show(mainPanel, "dashboard");
             } else {
@@ -123,7 +120,7 @@ public class BankUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "Please fill all fields!");
                 return;
             }
-
+            Register.register(name,user,pass,acc);
             loginRegister.register(name, user, pass, acc);
             JOptionPane.showMessageDialog(this, "Account created successfully.");
             cardLayout.show(mainPanel, "login");
@@ -153,25 +150,42 @@ public class BankUI extends JFrame {
         logoutBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         depositBtn.addActionListener(e -> {
+            if (bankService.isLoggedIn()) {
+                JOptionPane.showMessageDialog(this, "Please login first.");
+                return;
+            }
+
             String amt = JOptionPane.showInputDialog(this, "Enter amount to deposit:");
-            if (amt != null) {
+            if (amt == null) {
+                JOptionPane.showMessageDialog(this,"Please enter the amount");
+            }
                 try {
-                    double amount = Double.parseDouble(amt);
+                    double amount = 0;
+                    if (amt != null) {
+                        amount = Double.parseDouble(amt);
+                    }
+                    Deposit.depositAmount(currentLoggedInUser.getUsername(), amount);
                     bankService.depositAmount(amount);
-//                    Deposit deposit
-//                    User user =
+                    JOptionPane.showMessageDialog(this, "Deposit successful!");
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "Invalid amount.");
                 }
-            }
+
         });
 
         withdrawBtn.addActionListener(e -> {
+            if (currentLoggedInUser == null) {
+                JOptionPane.showMessageDialog(this, "Please login first.");
+                return;
+            }
+
             String amt = JOptionPane.showInputDialog(this, "Enter amount to withdraw:");
             if (amt != null) {
                 try {
                     double amount = Double.parseDouble(amt);
                     bankService.Withdraw(amount);
+                    Withdraw.withdraw(currentLoggedInUser.getUsername(), amount);
+                    JOptionPane.showMessageDialog(this, "Withdrawal successful!");
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "Invalid amount.");
                 }
@@ -179,25 +193,24 @@ public class BankUI extends JFrame {
         });
 
         viewBtn.addActionListener(e -> {
-                if (currentLoggedInUser == null) {
-                    // Show error dialog if not logged in
-                    JOptionPane.showMessageDialog(null, "Please login first to view account details.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+            if (currentLoggedInUser == null) {
+                JOptionPane.showMessageDialog(this, "Please login first.");
+                return;
+            }
 
-                String userInfo = "Username: " + currentLoggedInUser.getUsername() + "\n"
-                        + "Account Number: " + currentLoggedInUser.getAccountNumber() + "\n"
-                        + String.format("Balance: %.2f", currentLoggedInUser.getBalance());
+            DisplayUser.displayuser(currentLoggedInUser.getUsername());
+            bankService.displayDetails();
 
-                // Show info in a dialog box
-                JOptionPane.showMessageDialog(null, userInfo, "Account Details", JOptionPane.INFORMATION_MESSAGE);
+            String userInfo = "Username: " + currentLoggedInUser.getUsername() + "\n"
+                    + "Account Number: " + currentLoggedInUser.getAccountNumber() + "\n"
+                    + String.format("Balance: %.2f", currentLoggedInUser.getBalance());
 
-
+            JOptionPane.showMessageDialog(this, userInfo, "Account Details", JOptionPane.INFORMATION_MESSAGE);
         });
 
         logoutBtn.addActionListener(e -> {
             bankService.logout();
+            JOptionPane.showMessageDialog(this, "Logged out successfully.");
             cardLayout.show(mainPanel, "login");
         });
 
@@ -216,7 +229,8 @@ public class BankUI extends JFrame {
 
     public static void main(String[] args) {
         try {
-//            UIManager.setLookAndFeel(new FlatLightLaf());  // Optional modern theme
+            // Optional Look & Feel (FlatLaf or others)
+            // UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (Exception ignored) {}
 
         SwingUtilities.invokeLater(BankUI::new);
