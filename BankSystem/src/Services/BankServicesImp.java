@@ -2,17 +2,19 @@ package Services;
 
 import BankSystem.User;
 import BankSystem.UserManager;
+import Database.Deposit;
+import Database.Login;
 import LoginandRegister.LoginRegister;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 
-
 public class BankServicesImp implements BanksServices {
     Scanner scanner = new Scanner(System.in);
     List<User> users = new ArrayList<>();
-   public static User currentLoggedInUser = null;
+    User user = new User();
+   public static User currentLoggedInUser;
 
     @Override
     public void Adduser(User user) {
@@ -35,8 +37,7 @@ public class BankServicesImp implements BanksServices {
         String password = scanner.nextLine();
 
         currentLoggedInUser = loginRegister.login(username, password);
-
-        if (currentLoggedInUser != null) {
+        if ((currentLoggedInUser!= null)) {
             System.out.println("Login successful!");
         } else {
             System.out.println("Login failed. Invalid username or password.");
@@ -59,10 +60,10 @@ public class BankServicesImp implements BanksServices {
 
     @Override
     public void depositAmount(double amount) {
-        if (currentLoggedInUser == null) {
-            System.out.println("Please login first!");
-            return;
-        }
+//        if (currentLoggedInUser == null) {
+//            System.out.println("Please login first!");
+//            return;
+//        }
 
         if (amount <= 0) {
             System.out.println("Invalid amount! Deposit amount must be greater than zero.");
@@ -70,6 +71,7 @@ public class BankServicesImp implements BanksServices {
         }
 
         synchronized (currentLoggedInUser) {
+            Deposit.depositAmount(currentLoggedInUser.getName(),currentLoggedInUser.getBalance()+amount);
             currentLoggedInUser.setBalance(currentLoggedInUser.getBalance() + amount);
         }
 
@@ -126,11 +128,11 @@ public class BankServicesImp implements BanksServices {
         System.out.printf("Balance: %.2f%n", currentLoggedInUser.getBalance());
     }
     public void Login(LoginRegister loginRegister, String username, String password) {
-        currentLoggedInUser = loginRegister.login(username, password);
+        currentLoggedInUser = LoginRegister.login(username, password);
     }
 
     public boolean isLoggedIn() {
-        return currentLoggedInUser != null;
+        return (currentLoggedInUser != null);
     }
 
     public void logout() {
