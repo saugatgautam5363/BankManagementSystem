@@ -29,7 +29,7 @@ public class LoginRegister {
         }else {
             System.out.println("❌ Login failed. Invalid credentials.");
         }
-            return user;
+        return user;
     }
     public void setInput(String username, String password) {
         this.username = username;
