@@ -159,17 +159,17 @@ public class BankUI extends JFrame {
             if (amt == null) {
                 JOptionPane.showMessageDialog(this,"Please enter the amount");
             }
-                try {
-                    double amount = 0;
-                    if (amt != null) {
-                        amount = Double.parseDouble(amt);
-                    }
-                    Deposit.depositAmount(currentLoggedInUser.getUsername(), amount);
-                    bankService.depositAmount(amount);
-                    JOptionPane.showMessageDialog(this, "Deposit successful!");
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Invalid amount.");
+            try {
+                double amount = 0;
+                if (amt != null) {
+                    amount = Double.parseDouble(amt);
                 }
+                Deposit.depositAmount(currentLoggedInUser.getUsername(), amount);
+                bankService.depositAmount(amount);
+                JOptionPane.showMessageDialog(this, "Deposit successful!");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Invalid amount.");
+            }
 
         });
 
