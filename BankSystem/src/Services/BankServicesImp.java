@@ -14,7 +14,7 @@ public class BankServicesImp implements BanksServices {
     Scanner scanner = new Scanner(System.in);
     List<User> users = new ArrayList<>();
     User user = new User();
-   public static User currentLoggedInUser;
+    public static User currentLoggedInUser;
 
     @Override
     public void Adduser(User user) {
@@ -37,7 +37,8 @@ public class BankServicesImp implements BanksServices {
         String password = scanner.nextLine();
 
         currentLoggedInUser = loginRegister.login(username, password);
-        if ((currentLoggedInUser!= null)) {
+//        currentLoggedInUser = Login.authenticate(username,password);
+        if ((currentLoggedInUser != null)) {
             System.out.println("Login successful!");
         } else {
             System.out.println("Login failed. Invalid username or password.");
