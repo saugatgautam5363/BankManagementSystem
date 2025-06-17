@@ -27,7 +27,6 @@ public class DashboardPanel extends JPanel {
             bankServices.Withdraw(amount);
         });
 
-        btnDetails.addActionListener(e -> bankServices.displayDetails(""));
 
         add(btnDeposit);
         add(btnWithdraw);
