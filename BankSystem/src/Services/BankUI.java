@@ -193,19 +193,17 @@ public class BankUI extends JFrame {
         });
 
         viewBtn.addActionListener(e -> {
-            if (currentLoggedInUser == null) {
+            if (bankService.isLoggedIn()) {
                 JOptionPane.showMessageDialog(this, "Please login first.");
                 return;
             }
 
-            DisplayUser.displayuser(currentLoggedInUser.getUsername());
             bankService.displayDetails();
 
-            String userInfo = "Username: " + currentLoggedInUser.getUsername() + "\n"
-                    + "Account Number: " + currentLoggedInUser.getAccountNumber() + "\n"
-                    + String.format("Balance: %.2f", currentLoggedInUser.getBalance());
-
-            JOptionPane.showMessageDialog(this, userInfo, "Account Details", JOptionPane.INFORMATION_MESSAGE);
+//            String userInfo = "Username: " + currentLoggedInUser.getUsername() + "\n"
+//                    + "Account Number: " + currentLoggedInUser.getAccountNumber() + "\n"
+//                    + String.format("Balance: %.2f", currentLoggedInUser.getBalance());
+//            JOptionPane.showMessageDialog(this, userInfo, "Account Details", JOptionPane.INFORMATION_MESSAGE);
         });
 
         logoutBtn.addActionListener(e -> {

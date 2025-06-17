@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BanksServices {
     void Adduser(User user);
-    void Login(LoginRegister loginRegister);
+    boolean Login(LoginRegister loginRegister);
 
     void register(LoginRegister loginRegister);
 
