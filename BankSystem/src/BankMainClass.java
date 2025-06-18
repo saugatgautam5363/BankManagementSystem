@@ -1,3 +1,5 @@
+import BankSystem.User;
+import Database.*;
 import LoginandRegister.LoginRegister;
 import Services.BankServicesImp;
 import Services.BanksServices;
@@ -74,6 +76,7 @@ public  class BankMainClass {
                     if (isLoggedIn) {
                         loginUser = userNameToLogin;
                         System.out.println("✅ Login successful!");
+                        System.out.println("Logged in user: " + loginUser);
                         dashboard();
                     } else {
                         loginUser = null;
