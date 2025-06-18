@@ -12,7 +12,7 @@ public class BankServicesImp implements BanksServices {
     Scanner scanner = new Scanner(System.in);
     List<User> users = new ArrayList<>();
     User user = new User();
-    public static User currentLoggedInUser;
+    public static String currentLoggedInUser;
 
     @Override
     public void Adduser(User user) {
@@ -34,9 +34,9 @@ public class BankServicesImp implements BanksServices {
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
 
-        currentLoggedInUser = loginRegister.login(username, password);
 //        currentLoggedInUser = Login.authenticate(username,password);
         if ((currentLoggedInUser != null)) {
+            currentLoggedInUser = username;
             System.out.println("Login successful!");
         } else {
             System.out.println("Login failed. Invalid username or password.");
@@ -66,22 +66,22 @@ public class BankServicesImp implements BanksServices {
         }
         if (currentLoggedInUser != null) {
             synchronized (currentLoggedInUser) {
-                Deposit.depositAmount(currentLoggedInUser.getName(), currentLoggedInUser.getBalance() + amount);
-                currentLoggedInUser.setBalance(currentLoggedInUser.getBalance() + amount);
+                Deposit.depositAmount(user.getName(), user.getBalance() + amount);
+                user.setBalance(user.getBalance() + amount);
             }
 
             System.out.println("Deposit successful!");
-            System.out.printf("New Balance: %.2f%n", currentLoggedInUser.getBalance());
+            System.out.printf("New Balance: %.2f%n", user.getBalance());
         }else {
             System.out.println("Login first!!");
         }
     }
     @Override
     public  void Withdraw(double amount) {
-        if (currentLoggedInUser == null) {
-            System.out.println("Please login first!");
-            return;
-        }
+//        if (currentLoggedInUser == null) {
+//            System.out.println("Please login first!");
+//            return;
+//        }
 
 //        // Ensure the logged-in user is withdrawing from their own account
 //        if (!currentLoggedInUser.getAccountNumber().equals(accountNumber.trim()) ||
@@ -95,15 +95,14 @@ public class BankServicesImp implements BanksServices {
             return;
         }
 
-        synchronized (currentLoggedInUser) {
-            if (amount > currentLoggedInUser.getBalance()) {
+            if (amount > user.getBalance()) {
                 System.out.println("Insufficient balance!");
             } else {
-                currentLoggedInUser.setBalance(currentLoggedInUser.getBalance() - amount);
+                user.setBalance(user.getBalance() - amount);
                 System.out.println("Withdrawal successful!");
-                System.out.printf("New Balance: %.2f%n", currentLoggedInUser.getBalance());
+                System.out.println("New Balance: %.2f%n"+user.getBalance());
             }
-        }
+
     }
 
     public void displayDetails() {
@@ -120,12 +119,12 @@ public class BankServicesImp implements BanksServices {
 //        }
 
         System.out.println("User Details:");
-        System.out.println("Username: " + currentLoggedInUser.getUsername());
-        System.out.println("Account Number: " + currentLoggedInUser.getAccountNumber());
-        System.out.printf("Balance: %.2f%n", currentLoggedInUser.getBalance());
+        System.out.println("Username: " + user.getUsername());
+        System.out.println("Account Number: " + user.getAccountNumber());
+        System.out.printf("Balance: %.2f%n", user.getBalance());
     }
     public boolean Login(LoginRegister loginRegister, String username, String password) {
-        currentLoggedInUser = LoginRegister.login(username, password);
+        user = LoginRegister.login(username, password);
         return false;
     }
 
