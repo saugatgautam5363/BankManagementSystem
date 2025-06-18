@@ -14,7 +14,6 @@ public  class Deposit {
 
             if (resultSet.next()) {
                 double balance = resultSet.getDouble("balance");
-
                 String query2 = "UPDATE user_details SET balance = balance + ? WHERE user_name = ?";
                 PreparedStatement preparedStatement1 = connection.prepareStatement(query2);
                 preparedStatement1.setDouble(1, amount);
