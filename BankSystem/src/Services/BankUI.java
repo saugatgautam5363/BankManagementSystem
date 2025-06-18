@@ -1,17 +1,23 @@
 package Services;
 
+import BankSystem.User;
+import BankSystem.UserManager;
 import Database.*;
 import LoginandRegister.LoginRegister;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static Services.BankServicesImp.currentLoggedInUser;
 
 public class BankUI extends JFrame {
+   static List<User> users = new ArrayList<>();
+   User user = new User();
     private final BankServicesImp bankService = new BankServicesImp();
     private final LoginRegister loginRegister = new LoginRegister();
-
+    static String loginUser = null;
     private final CardLayout cardLayout = new CardLayout();
     private final JPanel mainPanel = new JPanel(cardLayout);
 
@@ -77,6 +83,8 @@ public class BankUI extends JFrame {
             }
             bankService.Login(loginRegister, user, pass);
             if (bankService.isLoggedIn()||Login.authenticate(user,pass)) {
+                loginUser = user;
+                UserManager.addUser(new User());
                 JOptionPane.showMessageDialog(this, "Welcome back, " + user + "!");
                 cardLayout.show(mainPanel, "dashboard");
             } else {
@@ -121,6 +129,7 @@ public class BankUI extends JFrame {
                 return;
             }
             Register.register(name,user,pass,acc);
+            UserManager.addUser(new User());
             loginRegister.register(name, user, pass, acc);
             JOptionPane.showMessageDialog(this, "Account created successfully.");
             cardLayout.show(mainPanel, "login");
@@ -150,60 +159,74 @@ public class BankUI extends JFrame {
         logoutBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         depositBtn.addActionListener(e -> {
-            if (bankService.isLoggedIn()) {
+            if (currentLoggedInUser != null) {
                 JOptionPane.showMessageDialog(this, "Please login first.");
                 return;
             }
 
             String amt = JOptionPane.showInputDialog(this, "Enter amount to deposit:");
-            if (amt == null) {
-                JOptionPane.showMessageDialog(this,"Please enter the amount");
-            }
-            try {
-                double amount = 0;
-                if (amt != null) {
-                    amount = Double.parseDouble(amt);
-                }
-                Deposit.depositAmount(currentLoggedInUser.getUsername(), amount);
-                bankService.depositAmount(amount);
-                JOptionPane.showMessageDialog(this, "Deposit successful!");
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Invalid amount.");
+
+            if (amt == null || amt.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid amount.");
+                return;
             }
 
+            try {
+                double amount = Double.parseDouble(amt.trim());
+
+                if (amount <= 0) {
+                    JOptionPane.showMessageDialog(this, "Amount must be greater than 0.");
+                    return;
+                }
+
+                // Call the deposit
+                bankService.depositAmount(amount);
+                Deposit.depositAmount(loginUser, amount);
+                JOptionPane.showMessageDialog(this, "Deposit successful!");
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Invalid amount format. Please enter a number.");
+            }
         });
 
+
         withdrawBtn.addActionListener(e -> {
-            if (currentLoggedInUser == null) {
+            if (currentLoggedInUser != null) {
                 JOptionPane.showMessageDialog(this, "Please login first.");
                 return;
             }
 
             String amt = JOptionPane.showInputDialog(this, "Enter amount to withdraw:");
-            if (amt != null) {
+            if (amt == null || amt.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid amount.");
+                return;
+            }
                 try {
-                    double amount = Double.parseDouble(amt);
+                    double amount = Double.parseDouble(amt.trim());
+
+
                     bankService.Withdraw(amount);
-                    Withdraw.withdraw(currentLoggedInUser.getUsername(), amount);
+                    Withdraw.withdraw(loginUser, amount);
                     JOptionPane.showMessageDialog(this, "Withdrawal successful!");
+
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "Invalid amount.");
                 }
-            }
+
         });
 
         viewBtn.addActionListener(e -> {
-            if (bankService.isLoggedIn()) {
+            if (currentLoggedInUser !=null) {
                 JOptionPane.showMessageDialog(this, "Please login first.");
                 return;
             }
 
-            bankService.displayDetails();
+           // bankService.displayDetails();
 
-//            String userInfo = "Username: " + currentLoggedInUser.getUsername() + "\n"
-//                    + "Account Number: " + currentLoggedInUser.getAccountNumber() + "\n"
-//                    + String.format("Balance: %.2f", currentLoggedInUser.getBalance());
-//            JOptionPane.showMessageDialog(this, userInfo, "Account Details", JOptionPane.INFORMATION_MESSAGE);
+            String userInfo = "Username: " + user.getUsername() + "\n"
+                    + "Account Number: " + user.getAccountNumber() + "\n"
+                    + String.format("Balance: %.2f", user.getBalance());
+            JOptionPane.showMessageDialog(this, userInfo, "Account Details", JOptionPane.INFORMATION_MESSAGE);
         });
 
         logoutBtn.addActionListener(e -> {
