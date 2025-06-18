@@ -15,7 +15,7 @@ public class UserManager {
 
 
 
-    public void addUser(User user){
+    public static void addUser(User user){
         if(user != null) {
             users.add(user);
         }
