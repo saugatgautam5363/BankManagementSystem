@@ -1,7 +1,5 @@
 package BankSystem;
 
-import Database.Login;
-
 public class User {
     String name;
     String username;
