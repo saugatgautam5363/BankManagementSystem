@@ -36,8 +36,8 @@ public class BankServicesImp implements BanksServices {
 
 //        currentLoggedInUser = Login.authenticate(username,password);
         if ((currentLoggedInUser != null)) {
-            currentLoggedInUser = username;
             System.out.println("Login successful!");
+            currentLoggedInUser = username;
         } else {
             System.out.println("Login failed. Invalid username or password.");
         }
@@ -94,7 +94,7 @@ public class BankServicesImp implements BanksServices {
             System.out.println("Invalid amount! Withdrawal amount must be greater than zero.");
             return;
         }
-
+        System.out.println(user.getBalance());
             if (amount > user.getBalance()) {
                 System.out.println("Insufficient balance!");
             } else {
