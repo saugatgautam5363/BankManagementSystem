@@ -13,8 +13,8 @@ import java.util.List;
 import static Services.BankServicesImp.currentLoggedInUser;
 
 public class BankUI extends JFrame {
-   static List<User> users = new ArrayList<>();
-   User user = new User();
+    static List<User> users = new ArrayList<>();
+    User user = new User();
     private final BankServicesImp bankService = new BankServicesImp();
     private final LoginRegister loginRegister = new LoginRegister();
     static String loginUser = null;
@@ -201,17 +201,17 @@ public class BankUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "Please enter a valid amount.");
                 return;
             }
-                try {
-                    double amount = Double.parseDouble(amt.trim());
+            try {
+                double amount = Double.parseDouble(amt.trim());
 
 
-                    bankService.Withdraw(amount);
-                    Withdraw.withdraw(loginUser, amount);
-                    JOptionPane.showMessageDialog(this, "Withdrawal successful!");
+                bankService.Withdraw(amount);
+                Withdraw.withdraw(loginUser, amount);
+                JOptionPane.showMessageDialog(this, "Withdrawal successful!");
 
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Invalid amount.");
-                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Invalid amount.");
+            }
 
         });
 
@@ -221,7 +221,7 @@ public class BankUI extends JFrame {
                 return;
             }
 
-           // bankService.displayDetails();
+            // bankService.displayDetails();
 
             String userInfo = "Username: " + user.getUsername() + "\n"
                     + "Account Number: " + user.getAccountNumber() + "\n"
