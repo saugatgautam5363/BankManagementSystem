@@ -23,6 +23,9 @@ public class UserManager {
     public static List<User> getUsers() {
         return users;
     }
+
+
+
     public List<User> getAllUser(){
         return users;
     }
